@@ -1,0 +1,16 @@
+{
+  "name": "hast-util-trim-element",
+  "image": "ghcr.io/hankei6km/h6-dev-containers/images:typescript-node_latest",
+  "remoteUser": "devcontainer",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "files.insertFinalNewline": true,
+        "javascript.format.semicolons": "remove",
+        "typescript.format.semicolons": "remove",
+        "javascript.preferences.quoteStyle": "single",
+        "typescript.preferences.quoteStyle": "single"
+      }
+    }
+  }
+}
