@@ -1,6 +1,6 @@
 {
   "name": "@hankei6km/hast-util-trim-element",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "description": "hast utility to trim an element",
   "license": "MIT",
   "author": "hankei6km <hankei6km@gmail.com> (https://github.com/hankei6km)",
