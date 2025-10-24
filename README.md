@@ -5,7 +5,7 @@
 ## Install
 
 ```sh
-npm install @hankei6lm/hast-util-trim-element
+npm install @hankei6km/hast-util-trim-element
 ```
 
 ## Usage
@@ -13,7 +13,7 @@ npm install @hankei6lm/hast-util-trim-element
 ```js
 import { h } from 'hastscript'
 import { toHtml } from 'hast-util-to-html'
-import { trimElement } from '@hankei6lm/hast-util-trim-element'
+import { trimElement } from '@hankei6km/hast-util-trim-element'
 
 const tree = h('p', [{ type: 'comment', value: 'コメント' }, '\u00A0\u00A0\u00A0\u00A0', h('span', []), '   ', h('br'), h('strong', '  \u3000あいうえお'), h('br'), 'かきくけこ', h('br'), h('strong', ['さしすせそ   ']), h('br'), '   '])
 
