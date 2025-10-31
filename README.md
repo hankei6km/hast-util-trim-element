@@ -39,7 +39,7 @@ yield:
 
 #### `options.recursiveTagNames`
 
-`element` 内の子ノードで `options.recursiveTagNames` に含まれるタグ名を持つ要素があった場合、その子要素も再帰的にトリムする(`RegExp`、デフォルトは `/^(a|strong|em|span|del|u|s|b|sub|sup)$/iu`)。
+`element` 内の子ノードで `options.recursiveTagNames` に含まれるタグ名を持つ要素があった場合、その子要素も再帰的にトリムする、`null` で全て無視(`RegExp` または `hast-util-is-element` の [`Test`](https://github.com/syntax-tree/hast-util-is-element?tab=readme-ov-file#test)、デフォルトは `/^(a|strong|em|span|del|u|s|b|sub|sup)$/iu`)。
 
 #### `options.trimExistingEmptyText`
 
@@ -60,8 +60,8 @@ yield:
 ##### `startFilter` のフィールド
 
 - `trimTextMatcher`: 先頭のテキストノードからトリムするテキストを決定するマッチャー(`RegExp`、デフォルトは `/^\s+/u`)。
-- `trimTagNameMatcher`: 先頭の`element`ノードをトリムするかを決定するマッチャー(`RegExp`、デフォルトは `/^br$/iu`)。
-- `stopTagNameMatcher`: 先頭の`element`ノードを見つけた際に、トリムを停止するかを決定するマッチャー(`RegExp`、デフォルトは `/^(img|hr|input|meta|link|area|base|col|embed|source|track|wbr)$/iu`)。他の条件より優先される(例: 子要素が 0 個は継続されるが、`stopTagNameMatcher` にマッチした場合は処理が停止される)。
+- `trimTagNameMatcher`: 先頭の`element`ノードをトリムするかを決定するマッチャー、`null` で全て無視(`RegExp` または `hast-util-is-element` の [`Test`](https://github.com/syntax-tree/hast-util-is-element?tab=readme-ov-file#test)、デフォルトは `/^br$/iu`)。
+- `stopTagNameMatcher`: 先頭の`element`ノードを見つけた際に、トリムを停止するかを決定するマッチャー、`null` で全て無視(`RegExp` または `hast-util-is-element` の [`Test`](https://github.com/syntax-tree/hast-util-is-element?tab=readme-ov-file#test)、デフォルトは `/^(img|hr|input|meta|link|area|base|col|embed|source|track|wbr)$/iu`)。他の条件より優先される(例: 子要素が 0 個は継続されるが、`stopTagNameMatcher` にマッチした場合は処理が停止される)。
 
 #### `options.endFilter`
 
@@ -70,8 +70,8 @@ yield:
 ##### `endFilter` のフィールド
 
 - `trimTextMatcher`: 末尾のテキストノードからトリムするテキストを決定するマッチャー(`RegExp`、デフォルトは `/\s+$/u`)。
-- `trimTagNameMatcher`: 末尾の`element`ノードをトリムするかを決定するマッチャー(`RegExp`、デフォルトは `/^br$/iu`)。
-- `stopTagNameMatcher`: 末尾の`element`ノードを見つけた際に、トリムを停止するかを決定するマッチャー(`RegExp`、デフォルトは `/^(img|hr|input|meta|link|area|base|col|embed|source|track|wbr)$/iu`)。他の条件より優先される(例: 子要素が 0 個は継続されるが、`stopTagNameMatcher` にマッチした場合は処理が停止される)。
+- `trimTagNameMatcher`: 末尾の`element`ノードをトリムするかを決定するマッチャー、`null` で全て無視(`RegExp` または `hast-util-is-element` の [`Test`](https://github.com/syntax-tree/hast-util-is-element?tab=readme-ov-file#test)、デフォルトは `/^br$/iu`)。
+- `stopTagNameMatcher`: 末尾の`element`ノードを見つけた際に、トリムを停止するかを決定するマッチャー、`null` で全て無視(`RegExp` または `hast-util-is-element` の [`Test`](https://github.com/syntax-tree/hast-util-is-element?tab=readme-ov-file#test)、デフォルトは `/^(img|hr|input|meta|link|area|base|col|embed|source|track|wbr)$/iu`)。他の条件より優先される(例: 子要素が 0 個は継続されるが、`stopTagNameMatcher` にマッチした場合は処理が停止される)。
 
 ## License
 

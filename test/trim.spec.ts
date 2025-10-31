@@ -473,6 +473,37 @@ describe('trimElement()', () => {
         .toEqual(h('p', ['test0 test1']))
     }
   })
+  it('should trim elements with custom tag names', async () => {
+    {
+      const e = h('p', ['   ', h('foo', [' ']), '', h('bar', ['', '   ']), ' test0 test1 ', h('bar', ['   ', '']), '', h('foo', [' ']), '    '])
+      trimElement(e, {
+        recursiveTagNames: ['foo', 'bar']
+      })
+      expect(e)
+        .toEqual(h('p', ['test0 test1']))
+    }
+    {
+      const e = h('p', ['   ', h('foo', [' ']), '', h('bar', ['', '   ']), h('baz', []), ' test0 test1 ', h('qux', []), h('bar', ['   ', '']), '', h('foo', [' ']), '    '])
+      trimElement(e, {
+        recursiveTagNames: ['foo', 'bar'],
+        startFilter: { stopTagNameMatcher: 'baz' },
+        endFilter: { stopTagNameMatcher: 'qux' }
+      })
+      expect(e)
+        .toEqual(h('p', [h('baz', []), ' test0 test1 ', h('qux', [])]))
+    }
+    {
+      const e = h('p', ['   ', h('foo', [' ']), '', h('bar', ['', '   ']), h('baz', []), ' test0 test1 ', h('qux', []), h('bar', ['   ', '']), '', h('foo', [' ']), '    '])
+      trimElement(e, {
+        trimExistingEmptyElement: false,
+        recursiveTagNames: ['foo', 'bar'],
+        startFilter: { trimTagNameMatcher: 'baz' },
+        endFilter: { trimTagNameMatcher: 'qux' }
+      })
+      expect(e)
+        .toEqual(h('p', ['test0 test1']))
+    }
+  })
   it('should disable trimming by the empty options', async () => {
     {
       const e = h('p', ['   ', h('br'), h('span', [' ', h('br'), 'test2']), ' test0 test1 ', h('span', ['test3', h('br'), ' ']), h('br'), '   '])
