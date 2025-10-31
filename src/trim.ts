@@ -245,8 +245,22 @@ function trimEndChildren(el: Element, options: FilterOptions): void {
     return
 }
 
-export function trimElement(element: Element, options: TrimElementOptions = defaultTrimElementOptions): void {
-    if (element.type === 'element') {
+export function trimElement(element: Element | Element['children'], options: TrimElementOptions = defaultTrimElementOptions): void {
+    if (Array.isArray(element)) {
+        const normalizedOptions = getNormalizedTrimElementOptions(options)
+        const dummy = { type: 'element' as const, tagName: 'p', properties: {}, children: element }
+        trimStartChildren(
+            dummy,
+            getStartFilterOptions(normalizedOptions)
+        )
+        trimEndChildren(
+            dummy,
+            getEndFilterOptions(normalizedOptions)
+        )
+        // children の場合、dummy の children を書き戻す。
+        element.length = 0
+        element.push(...dummy.children)
+    } else if (element.type === 'element') {
         const normalizedOptions = getNormalizedTrimElementOptions(options)
         trimStartChildren(
             element,

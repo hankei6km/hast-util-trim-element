@@ -504,6 +504,20 @@ describe('trimElement()', () => {
         .toEqual(h('p', ['test0 test1']))
     }
   })
+  it('should trim children elements', async () => {
+    {
+      const e = h('p', ['   ', h('span', [' ']), '', h('span', ['', '   ']), ' test0 test1 ', h('span', ['   ', '']), '', h('span', [' ']), '    '])
+      trimElement(e.children)
+      expect(e)
+        .toEqual(h('p', ['test0 test1']))
+    }
+    {
+      const e = h('p', [])
+      trimElement(e.children)
+      expect(e.children)
+        .toEqual([])
+    }
+  })
   it('should disable trimming by the empty options', async () => {
     {
       const e = h('p', ['   ', h('br'), h('span', [' ', h('br'), 'test2']), ' test0 test1 ', h('span', ['test3', h('br'), ' ']), h('br'), '   '])
