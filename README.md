@@ -35,7 +35,7 @@ yield:
 
 ### `trimElement(element, [options])`
 
-`element` 内の先頭または末尾の空白や改行を削除する。
+`element` 内の先頭または末尾の空白や改行を削除する。`element` は `hast` の `Element` ノードまたは `Element['children']` の配列。
 
 #### `options.recursiveTagNames`
 
