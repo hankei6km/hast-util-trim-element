@@ -1,14 +1,17 @@
 import type { Element, ElementContent } from 'hast'
+import type { Test } from 'hast-util-is-element'
+import { isElement } from 'hast-util-is-element'
 
-export type Matcher = RegExp
+export type TextMatcher = RegExp
+export type ElementMatcher = RegExp | Test
 export type Filter = {
-    trimTextMatcher?: Matcher | null
-    trimTagNameMatcher?: Matcher | null
-    stopTagNameMatcher?: Matcher | null
+    trimTextMatcher?: TextMatcher | null
+    trimTagNameMatcher?: ElementMatcher | null
+    stopTagNameMatcher?: ElementMatcher | null
 }
 
 export type TrimElementOptions = {
-    recursiveTagNames?: RegExp | null
+    recursiveTagNames?: ElementMatcher | null
     trimExistingEmptyText?: boolean
     trimExistingEmptyElement?: boolean
     trimBecameEmptyElement?: boolean
@@ -117,6 +120,18 @@ function getEndFilterOptions(options: NormalizedTrimElementOptions): FilterOptio
     }
 }
 
+function isMatcherMatch(matcher: ElementMatcher, value: ElementContent): boolean {
+    if (matcher instanceof RegExp) {
+        return value.type === 'element' ? matcher.test(value.tagName) : false
+    }
+    // hast-util-is-element は test(ElementMatcher) が null の場合、value が element であるかのみチェックするので、
+    // ここでは false を返す(ElementMatcher としては null で disable 扱いしたい)。
+    if (matcher === null) {
+        return false
+    }
+    return isElement(value, matcher)
+}
+
 type FilterState = 'trim' | 'pass' | 'recursive' | 'stop'
 function filterElement(e: ElementContent, options: FilterOptions): FilterState {
     let filterState: FilterState = 'stop'
@@ -142,8 +157,8 @@ function filterElement(e: ElementContent, options: FilterOptions): FilterState {
             }
         }
     } else if (e.type === 'element') {
-        if (!(options.filter.stopTagNameMatcher instanceof RegExp && options.filter.stopTagNameMatcher.test(e.tagName))) {
-            if (options.filter.trimTagNameMatcher instanceof RegExp && options.filter.trimTagNameMatcher.test(e.tagName)) {
+        if (!(isMatcherMatch(options.filter.stopTagNameMatcher, e))) {
+            if (isMatcherMatch(options.filter.trimTagNameMatcher, e)) {
                 filterState = 'trim'
             }
             if (filterState === 'stop') {
@@ -155,7 +170,7 @@ function filterElement(e: ElementContent, options: FilterOptions): FilterState {
                         // 空の element は trim しない、pass で残して継続する
                         filterState = 'pass'
                     }
-                } else if (e.children.length > 0 && options.recursiveTagNames instanceof RegExp && options.recursiveTagNames.test(e.tagName)) {
+                } else if (e.children.length > 0 && isMatcherMatch(options.recursiveTagNames, e)) {
                     // 再帰的に trim するが、lead/trail で処理が異なる(再帰に利用する関数が異なる)ため、呼び出しもとにまかせる。
                     filterState = 'recursive'
                 }
