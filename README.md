@@ -1,3 +1,5 @@
+Archived: 同様の機能を持つ unist 版を作成した。詳細は <https://github.com/hankei6km/unist-util-trim-children> を参照。
+
 # hast-util-trim-element
 
 `Element`(主に `<p>` を想定)から先頭と末尾の空白や改行(含む `<br>`)などを削除する hast ユーティリティ.
